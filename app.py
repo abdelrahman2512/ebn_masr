@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 def get():
 
-		text = request.args.get("text")
+	text = request.args.get("text")
 
 	
 
