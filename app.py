@@ -1,10 +1,10 @@
-import mindai
+import openai
 
 from flask import *
 
-import random
+api = "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"
 
-ai = mindai.Ai()
+openai.api_key = api
 
 app = Flask(__name__)
 
@@ -14,16 +14,34 @@ def get():
 
 	text = request.args.get("text")
 
-	
+	response = openai.Completion.create(
 
-	imgs = ai.image_search(text)
+	  model="text-davinci-003",
 
-	
+	  prompt=f"{text}",
 
-	return {"status":"done","url":random.choice(imgs["images"])}
+	  temperature=0.9,
+
+	  max_tokens=1000,
+
+	  top_p=1,
+
+	  frequency_penalty=0.0,
+
+	  presence_penalty=0.6,
+
+	  stop=[" Human:", " AI:"]
+
+	)
+
+	return {"status":"done","text":response["choices"][0]["text"]}
 
 	
 
 if __name__ =="__main__":
 
-	app.run(debug=True,port=81,host="0.0.0.0")
+	app.run(debug=True,host="0.0.0.0",port=81)
+
+	
+
+	
